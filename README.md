@@ -45,6 +45,26 @@ A beautiful, modern web portal for interacting with Claude AI, built with React 
    
    Open http://localhost:5173 in your browser.
 
+## API Endpoint
+
+Once deployed, your API endpoint will be at:
+```
+https://your-project-name.vercel.app/api/chat
+```
+
+This is a serverless function that:
+- Accepts POST requests with chat messages
+- Forwards them to Claude API
+- Returns Claude's responses
+- Handles errors and CORS
+
+**Testing your API endpoint:**
+```bash
+curl -X POST https://your-project-name.vercel.app/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"messages":[{"role":"user","content":"Hello"}]}'
+```
+
 ## Deploying to Vercel
 
 ### Method 1: Deploy with Vercel CLI (Recommended)
