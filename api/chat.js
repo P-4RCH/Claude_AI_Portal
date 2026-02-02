@@ -1,4 +1,4 @@
-// Vercel Serverless Function
+// Vercel Serverless Function with File Generation Support
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -34,6 +34,74 @@ export default async function handler(req, res) {
       });
     }
 
+    // Build the conversation history
+    const formattedMessages = messages.map(msg => {
+      if (msg.files && msg.files.length > 0) {
+        // Handle file uploads from user
+        const content = [
+          { type: 'text', text: msg.content }
+        ];
+        
+        msg.files.forEach(file => {
+          if (file.type.startsWith('image/')) {
+            content.push({
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: file.type,
+                data: file.data
+              }
+            });
+          } else if (file.type === 'application/pdf') {
+            content.push({
+              type: 'document',
+              source: {
+                type: 'base64',
+                media_type: 'application/pdf',
+                data: file.data
+              }
+            });
+          }
+        });
+        
+        return {
+          role: msg.role,
+          content: content
+        };
+      }
+      
+      return {
+        role: msg.role,
+        content: msg.content
+      };
+    });
+
+    // Enhanced system prompt for file generation
+    const systemPrompt = `You are Claude, a helpful AI assistant integrated into a web portal.
+
+When users ask you to create files, documents, or code, you should:
+1. Generate the content they requested
+2. Wrap the content in special markers so it can be extracted
+3. Provide a brief explanation of what you created
+
+For downloadable files, use this format:
+<file name="filename.ext" type="mime/type">
+base64_encoded_content_here
+</file>
+
+For code/text artifacts, use this format:
+<artifact title="Artifact Title" language="language">
+code_or_text_here
+</artifact>
+
+Examples:
+- "Create a Python script" → Generate code in <artifact> tags
+- "Make me a CSV file" → Generate CSV in <file> tags with base64 encoding
+- "Create a text document" → Generate in <file> tags
+- "Write me a JSON config" → Generate in <artifact> tags
+
+Always be helpful and create the requested content!`;
+
     // Make request to Anthropic API
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -44,8 +112,9 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5-20250929',
-        max_tokens: 1024,
-        messages: messages
+        max_tokens: 4096,
+        system: systemPrompt,
+        messages: formattedMessages
       })
     });
 
@@ -58,10 +127,54 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
+    const responseText = data.content[0].text;
 
-    res.status(200).json({
-      content: data.content[0].text
-    });
+    // Extract files from response
+    const files = [];
+    const fileRegex = /<file name="([^"]+)" type="([^"]+)">\s*([\s\S]*?)\s*<\/file>/g;
+    let fileMatch;
+    
+    while ((fileMatch = fileRegex.exec(responseText)) !== null) {
+      files.push({
+        name: fileMatch[1],
+        type: fileMatch[2],
+        data: fileMatch[3].trim()
+      });
+    }
+
+    // Extract artifacts from response
+    const artifacts = [];
+    const artifactRegex = /<artifact title="([^"]*)"(?: language="([^"]*)")?>\s*([\s\S]*?)\s*<\/artifact>/g;
+    let artifactMatch;
+    
+    while ((artifactMatch = artifactRegex.exec(responseText)) !== null) {
+      artifacts.push({
+        title: artifactMatch[1],
+        language: artifactMatch[2] || 'text',
+        content: artifactMatch[3].trim()
+      });
+    }
+
+    // Remove the file/artifact tags from the response text
+    let cleanedResponse = responseText
+      .replace(fileRegex, '')
+      .replace(artifactRegex, '')
+      .trim();
+
+    // Build the response
+    const result = {
+      content: cleanedResponse
+    };
+
+    if (files.length > 0) {
+      result.files = files;
+    }
+
+    if (artifacts.length > 0) {
+      result.artifacts = artifacts;
+    }
+
+    res.status(200).json(result);
   } catch (error) {
     console.error('API Error:', error);
     res.status(500).json({ 

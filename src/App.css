@@ -28,10 +28,16 @@ body {
   align-items: center;
 }
 
-.header h1 {
+.header-content h1 {
   color: #333;
   font-size: 1.8rem;
   font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.header-subtitle {
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .clear-btn {
@@ -77,7 +83,7 @@ body {
 .welcome-message {
   text-align: center;
   color: #666;
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 
 .welcome-message h2 {
@@ -86,8 +92,55 @@ body {
   color: #333;
 }
 
-.welcome-message p {
+.welcome-message > p {
   font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem auto;
+  max-width: 900px;
+}
+
+.feature-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.welcome-tip {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f0f0f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #555;
 }
 
 .message {
@@ -151,6 +204,126 @@ body {
   border-bottom-left-radius: 4px;
 }
 
+.message-content h1, .message-content h2, .message-content h3 {
+  margin: 0.5rem 0;
+  color: inherit;
+}
+
+.message-content pre {
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.message-content code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.message-content li {
+  margin-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.message-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.file-badge {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.download-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.download-section h4 {
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.download-icon {
+  font-size: 1.2rem;
+}
+
+.artifact-section {
+  margin-top: 1rem;
+}
+
+.artifact {
+  background: #2d2d2d;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.artifact-header {
+  background: #3d3d3d;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f8f8f2;
+  font-size: 0.9rem;
+}
+
+.copy-btn {
+  background: transparent;
+  border: 1px solid #666;
+  color: #f8f8f2;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+  background: #4d4d4d;
+  border-color: #888;
+}
+
+.artifact-code {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 .typing-indicator {
   display: flex;
   gap: 4px;
@@ -186,8 +359,72 @@ body {
   padding: 1.5rem 2rem;
   background: #f9f9f9;
   border-top: 1px solid #e0e0e0;
+}
+
+.uploaded-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.uploaded-file {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e0e0e0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.remove-file-btn {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.remove-file-btn:hover {
+  background: #ccc;
+  color: #333;
+}
+
+.input-row {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+
+.attach-btn {
+  background: #f0f0f0;
+  border: 2px solid #e0e0e0;
+  padding: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.attach-btn:hover:not(:disabled) {
+  background: #e0e0e0;
+  border-color: #667eea;
+}
+
+.attach-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .message-input {
@@ -213,12 +450,12 @@ body {
   background: #667eea;
   color: white;
   border: none;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   border-radius: 12px;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.2rem;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .send-btn:hover:not(:disabled) {
@@ -251,13 +488,27 @@ body {
   background: #555;
 }
 
+.artifact-code::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.artifact-code::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.artifact-code::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .header {
     padding: 1rem;
   }
 
-  .header h1 {
+  .header-content h1 {
     font-size: 1.3rem;
   }
 
@@ -274,11 +525,19 @@ body {
     max-width: 85%;
   }
 
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
   .input-form {
     padding: 1rem;
   }
 
+  .input-row {
+    gap: 0.5rem;
+  }
+
   .send-btn {
-    padding: 1rem 1.5rem;
+    padding: 1rem;
   }
 }
