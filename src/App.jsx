@@ -140,7 +140,7 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="header-content">
-          <h1>Claude AI Portal</h1>
+          <h1>P.4RCH AI Portal</h1>
           <p className="header-subtitle">Chat • Create • Download</p>
         </div>
         <button onClick={clearChat} className="clear-btn">Clear Chat</button>
@@ -150,7 +150,7 @@ function App() {
         <div className="messages">
           {messages.length === 0 && (
             <div className="welcome-message">
-              <h2>Welcome to Claude AI Portal</h2>
+              <h2>Welcome to P.4RCH AI Portal</h2>
               <p>I can help you with:</p>
               <div className="feature-grid">
                 <div className="feature-card">
