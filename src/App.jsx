@@ -138,7 +138,7 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="header-content">
-          <h1>Claude AI Portal</h1>
+          <h1>4RCH AI Portal</h1>
           <p className="header-subtitle">API Integration • File Creation • Smart Assistance</p>
         </div>
         <div className="header-actions">
@@ -153,7 +153,7 @@ function App() {
         <div className="messages">
           {showWelcome && messages.length === 0 && (
             <div className="welcome-message">
-              <h2>Welcome to Claude AI Portal</h2>
+              <h2>Welcome to 4RCH AI Portal</h2>
               <p>Choose how you want to interact with Claude:</p>
               
               <div className="mode-cards">
